@@ -54,14 +54,17 @@ def loc_plot():
 
     authors, datetimes, nlines = parse_git_log(cumlines=True, recentfirst=False)
 
+    plt.clf()
     plt.plot(datetimes, nlines, lw=2)
 
-    yrlabels = [2011, 2012, 2013, 2014]
+    yrlabels = [2011, 2012, 2013, 2014, 2015, 2016, 2017]
 
     plt.xticks([datetime(yr, 1, 1) for yr in yrlabels], yrlabels, fontsize=20)
     plt.ylabel('Lines of Code', fontsize=30)
 
     plt.tight_layout()
+    
+    plt.savefig('lines_of_code.png', bbox_inches='tight')
 
 
 def commits_plot():
@@ -69,15 +72,17 @@ def commits_plot():
 
     authors, datetimes, deltalines = parse_git_log(recentfirst=False)
 
+    plt.clf()
     plt.plot(datetimes, np.arange(len(datetimes)) + 1, lw=2)
 
-    yrlabels = [2011, 2012, 2013, 2014]
+    yrlabels = [2011, 2012, 2013, 2014, 2015, 2016, 2017]
 
     plt.xticks([datetime(yr, 1, 1) for yr in yrlabels], yrlabels, fontsize=20)
     plt.ylabel('Number of Commits', fontsize=30)
 
     plt.tight_layout()
 
+    plt.savefig('commits.png', bbox_inches='tight')
 
 def get_first_commit_map():
     authors, datetimes, deltalines = parse_git_log(recentfirst=False)
@@ -95,17 +100,19 @@ def commiters_plot():
 
     firstcommit = get_first_commit_map()
 
-    dts = np.sort(firstcommit.values())
+    dts = np.sort(list(firstcommit.values()))
 
+    plt.clf()
     plt.plot(dts, np.arange(len(dts)) + 1, lw=2)
 
-    yrlabels = [2011, 2012, 2013, 2014]
+    yrlabels = [2011, 2012, 2013, 2014, 2015, 2016, 2017]
 
     plt.xticks([datetime(yr, 1, 1) for yr in yrlabels], yrlabels, fontsize=20)
     plt.ylabel('# of Code Contributors', fontsize=30)
 
     plt.tight_layout()
 
+    plt.savefig('commiters.png', bbox_inches='tight')
 
 def site_visits_plot(fn='Analytics Astropy Audience Overview 20110101-20140101.csv'):
     from datetime import datetime
@@ -127,7 +134,7 @@ def site_visits_plot(fn='Analytics Astropy Audience Overview 20110101-20140101.c
 
     plt.plot(dts[~in2011], vs[~in2011], lw=2)
 
-    yrlabels = [2012, 2013, 2014]
+    yrlabels = [2012, 2013, 2014, 2015, 2016, 2017]
 
     plt.xticks([datetime(yr, 1, 1) for yr in yrlabels], yrlabels, fontsize=20)
     plt.ylabel('Daily Web Page Visits', fontsize=30)
@@ -135,3 +142,10 @@ def site_visits_plot(fn='Analytics Astropy Audience Overview 20110101-20140101.c
     plt.tight_layout()
 
     return dts, vs
+
+if __name__ == '__main__':
+
+    loc_plot()
+    commits_plot()
+    commiters_plot()
+    #site_visits_plot()
